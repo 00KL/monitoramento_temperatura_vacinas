@@ -7,7 +7,25 @@ public class LogMudancasCamara {
 	private LocalDateTime horaLog;
 	private String CPF;
 	private String NumCamara;
+	private Gestor gestor;
+	private Camara camara;
 	
+	public Gestor getGestor() {
+		return gestor;
+	}
+
+	public void setGestor(Gestor gestor) {
+		this.gestor = gestor;
+	}
+
+	public Camara getCamara() {
+		return camara;
+	}
+
+	public void setCamara(Camara camara) {
+		this.camara = camara;
+	}
+
 	public LogMudancasCamara(String numReg, LocalDateTime horaLog, String cPF, String numCamara) {
 		this.numReg = numReg;
 		this.horaLog = horaLog;

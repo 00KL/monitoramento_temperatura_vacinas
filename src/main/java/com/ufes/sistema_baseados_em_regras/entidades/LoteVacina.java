@@ -5,7 +5,17 @@ public class LoteVacina {
 	private String numeroSerial;
 	private Date dataFabricacao;
 	private Date dataValidade;
+	private TipoVacina tipoVacina;
 	
+	
+	public TipoVacina getTipoVacina() {
+		return tipoVacina;
+	}
+
+	public void setTipoVacina(TipoVacina tipoVacina) {
+		this.tipoVacina = tipoVacina;
+	}
+
 	public LoteVacina(String numeroSerial, Date dataFabricacao, Date dataValidade) {
 		this.numeroSerial = numeroSerial;
 		this.dataFabricacao = dataFabricacao;

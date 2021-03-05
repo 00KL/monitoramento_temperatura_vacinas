@@ -4,15 +4,24 @@ import java.time.LocalDateTime;
 
 public class RegistroIrregularidadeTemp {
 	private String numReg;
-	private tipoIrregularidade tipoIrregularidade;
+	private TipoIrregularidade TipoIrregularidade;
 	private LocalDateTime horaInicio;
 	private LocalDateTime horaTermino;
+	private Camara camara;
 	
+	public Camara getCamara() {
+		return camara;
+	}
+
+	public void setCamara(Camara camara) {
+		this.camara = camara;
+	}
+
 	public RegistroIrregularidadeTemp(String numReg,
-			com.ufes.sistema_baseados_em_regras.entidades.tipoIrregularidade tipoIrregularidade,
+			com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade TipoIrregularidade,
 			LocalDateTime horaInicio, LocalDateTime horaTermino) {
 		this.numReg = numReg;
-		this.tipoIrregularidade = tipoIrregularidade;
+		this.TipoIrregularidade = TipoIrregularidade;
 		this.horaInicio = horaInicio;
 		this.horaTermino = horaTermino;
 	}
@@ -35,11 +44,11 @@ public class RegistroIrregularidadeTemp {
 	public void setHoraTermino(LocalDateTime horaTermino) {
 		this.horaTermino = horaTermino;
 	}
-	public tipoIrregularidade getTipoIrregularidade() {
-		return tipoIrregularidade;
+	public TipoIrregularidade getTipoIrregularidade() {
+		return TipoIrregularidade;
 	}
-	public void setTipoIrregularidade(tipoIrregularidade tipoIrregularidade) {
-		this.tipoIrregularidade = tipoIrregularidade;
+	public void setTipoIrregularidade(TipoIrregularidade TipoIrregularidade) {
+		this.TipoIrregularidade = TipoIrregularidade;
 	}
 
 }

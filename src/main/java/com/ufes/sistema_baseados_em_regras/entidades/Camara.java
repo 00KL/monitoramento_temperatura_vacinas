@@ -4,8 +4,14 @@ public class Camara {
 	private String num;
 	private float tempAtual;
 	private int capacidadeMax;
+	private Local local;
 	
-	
+	public Local getLocal() {
+		return local;
+	}
+	public void setLocal(Local local) {
+		this.local = local;
+	}
 	public Camara(String num, float tempAtual, int capacidadeMax) {
 		this.num = num;
 		this.tempAtual = tempAtual;

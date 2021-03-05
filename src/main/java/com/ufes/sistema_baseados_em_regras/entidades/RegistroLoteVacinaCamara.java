@@ -2,11 +2,29 @@ package com.ufes.sistema_baseados_em_regras.entidades;
 
 import java.util.Date;
 
-public class RegistroVacinaCamara {
+public class RegistroLoteVacinaCamara {
 	private String numReg;
 	private Date dataReg;
+	private Camara camara;
+	private LoteVacina loteVacina;
 		
-	public RegistroVacinaCamara(String numReg, Date dataReg, Date dataRetirada) {
+	public Camara getCamara() {
+		return camara;
+	}
+
+	public void setCamara(Camara camara) {
+		this.camara = camara;
+	}
+
+	public LoteVacina getLoteVacina() {
+		return loteVacina;
+	}
+
+	public void setLoteVacina(LoteVacina loteVacina) {
+		this.loteVacina = loteVacina;
+	}
+
+	public RegistroLoteVacinaCamara(String numReg, Date dataReg, Date dataRetirada) {
 		this.numReg = numReg;
 		this.dataReg = dataReg;
 		this.dataRetirada = dataRetirada;
