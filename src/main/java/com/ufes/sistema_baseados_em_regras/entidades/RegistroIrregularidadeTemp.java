@@ -1,4 +1,4 @@
-package com.ufes.sistema_baseados_em_regras.trabalho1;
+package com.ufes.sistema_baseados_em_regras.entidades;
 
 import java.time.LocalDateTime;
 
@@ -9,7 +9,7 @@ public class RegistroIrregularidadeTemp {
 	private LocalDateTime horaTermino;
 	
 	public RegistroIrregularidadeTemp(String numReg,
-			com.ufes.sistema_baseados_em_regras.trabalho1.tipoIrregularidade tipoIrregularidade,
+			com.ufes.sistema_baseados_em_regras.entidades.tipoIrregularidade tipoIrregularidade,
 			LocalDateTime horaInicio, LocalDateTime horaTermino) {
 		this.numReg = numReg;
 		this.tipoIrregularidade = tipoIrregularidade;

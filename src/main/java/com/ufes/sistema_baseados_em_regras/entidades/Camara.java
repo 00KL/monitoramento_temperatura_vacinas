@@ -1,4 +1,4 @@
-package com.ufes.sistema_baseados_em_regras.trabalho1;
+package com.ufes.sistema_baseados_em_regras.entidades;
 
 public class Camara {
 	private String num;
@@ -11,6 +11,11 @@ public class Camara {
 		this.tempAtual = tempAtual;
 		this.capacidadeMax = capacidadeMax;
 	}
+	public Camara(String num, int capacidadeMax) {
+		this.num = num;
+		this.capacidadeMax = capacidadeMax;
+	}
+	
 	public String getNum() {
 		return num;
 	}

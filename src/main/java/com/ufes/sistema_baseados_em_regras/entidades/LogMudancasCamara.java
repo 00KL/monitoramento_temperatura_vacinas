@@ -1,4 +1,4 @@
-package com.ufes.sistema_baseados_em_regras.trabalho1;
+package com.ufes.sistema_baseados_em_regras.entidades;
 
 import java.time.LocalDateTime;
 

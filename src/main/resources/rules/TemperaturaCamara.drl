@@ -1,0 +1,22 @@
+package com.ufes.sistema_baseados_em_regras.trabalho1
+
+//list any import classes here.
+import com.ufes.sistema_baseados_em_regras.entidades.Camara;
+
+//declare any global variables here
+
+rule "checando temperatura"
+    when
+        $camara: Camara($num: num, $temp: tempAtual)
+    then
+        System.out.println("Camara " + $num + " com a temperatura de: " + $temp);
+end
+
+rule "Your Second Rule"
+    //include attributes such as "salience" here...
+    when
+        //conditions
+    then
+        //actions
+
+end

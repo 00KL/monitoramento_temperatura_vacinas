@@ -4,5 +4,8 @@
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="DROOLS/Drools"/>
+	<classpathentry kind="lib" path="C:/Users/T-Gamer/Desktop/UFES/SistemasDeRegras/monitoramento-temperatura-vacinas/jackson-databind-2.12.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/T-Gamer/Desktop/UFES/SistemasDeRegras/monitoramento-temperatura-vacinas/jackson-core-2.12.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/T-Gamer/Desktop/UFES/SistemasDeRegras/monitoramento-temperatura-vacinas/jackson-annotations-2.12.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

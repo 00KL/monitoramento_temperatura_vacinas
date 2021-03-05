@@ -1,4 +1,4 @@
-package com.ufes.sistema_baseados_em_regras.trabalho1;
+package com.ufes.sistema_baseados_em_regras.entidades;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;

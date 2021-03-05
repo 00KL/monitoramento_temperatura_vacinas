@@ -1,20 +1,45 @@
-package com.sample
+package com.ufes.sistema_baseados_em_regras
  
-import com.ufes.sistema_baseados_em_regras.examplo.DroolsTest.Message;
- 
-rule "Hello World"
-    when
-        m : Message( status == Message.HELLO, myMessage : message )
-    then
-        System.out.println( myMessage );
-        m.setMessage( "Goodbye cruel world" );
-        m.setStatus( Message.GOODBYE );
-        update( m );
+/*
+declare Febre
+	paciente: Paciente
+	temp: float
+	present: boolean
+end 
+
+rule "febrao do krl"
+	when
+		$paciente: Paciente($temp: temp >= 37, $nome: nome)
+		not (exists (Febre(paciente == $paciente, present == true)))
+	then
+		System.out.println( "PACIENTE " + $nome + " COM UMA FEBRE DANADA DE " + $temp );
+		insert(new Febre($paciente, $temp, true));
 end
 
-rule "GoodBye"
-    when
-        Message( status == Message.GOODBYE, myMessage : message )
-    then
-        System.out.println( myMessage );
+rule "to de boa"
+	when
+		$paciente: Paciente($temp: temp < 37, $nome: nome)
+		$febre: Febre(paciente == $paciente, present == true)
+	then
+		$febre.setPresent(false);
+		update($febre);
+		System.out.println( "PACIENTE " + $nome + " TA SAFE, TA SÓ " + $temp );
 end
+
+rule "media febre"
+	when
+		$paciente: Paciente($nome: nome)
+		exists(Febre(paciente == $paciente, present == true))
+		
+		$febres : ArrayList(size > 2) from collect (
+			Febre(paciente == $paciente, present == false)
+		)
+		
+		accumulate(
+			Febre($temp : temp) from $febres,
+			$media: average($temp)
+		)
+	then
+		System.out.println( "Media dessas febre ta " + $media );
+end
+*/
