@@ -1,6 +1,6 @@
 package com.sample
  
-import com.ufes.sistema_baseados_em_regras.trabalho1.DroolsTest.Message;
+import com.ufes.sistema_baseados_em_regras.examplo.DroolsTest.Message;
  
 rule "Hello World"
     when

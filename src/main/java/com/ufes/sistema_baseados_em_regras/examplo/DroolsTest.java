@@ -1,8 +1,9 @@
-package com.ufes.sistema_baseados_em_regras.trabalho1;
+package com.ufes.sistema_baseados_em_regras.examplo;
 
 import org.kie.api.KieServices;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.kie.api.runtime.rule.FactHandle; 
 
 /**
  * This is a sample class to launch a rule.
@@ -15,7 +16,13 @@ public class DroolsTest {
 	        KieServices ks = KieServices.Factory.get();
     	    KieContainer kContainer = ks.getKieClasspathContainer();
         	KieSession kSession = kContainer.newKieSession("ksession-rules");
-
+        	
+        	Paciente pat = new Paciente("123", "Patricia", 38);
+        	FactHandle Patricia = kSession.insert(pat);
+        	
+        	Thread t1 = new Thread( new TempSensorWrapper(kSession,Patricia));
+        	t1.start();
+        	
             // go !
             Message message = new Message();
             message.setMessage("Hello World");

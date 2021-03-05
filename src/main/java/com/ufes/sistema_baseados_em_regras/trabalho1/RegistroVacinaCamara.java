@@ -7,7 +7,6 @@ public class RegistroVacinaCamara {
 	private Date dataReg;
 		
 	public RegistroVacinaCamara(String numReg, Date dataReg, Date dataRetirada) {
-		super();
 		this.numReg = numReg;
 		this.dataReg = dataReg;
 		this.dataRetirada = dataRetirada;
