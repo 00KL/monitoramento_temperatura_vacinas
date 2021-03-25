@@ -1,11 +1,31 @@
 package com.ufes.sistema_baseados_em_regras.entidades;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 public class Camara {
 	private String num;
 	private float tempAtual;
-	private int capacidadeMax;
+	private int capacidadeMax; //Iremos usar isso?
 	private Local local;
+	private Date hoje;
 	
+	public Date getHoje() {
+		Date dt = new Date();
+		//SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
+		//formato.format(dt);
+		return dt;
+	}
+	private List<LoteVacina> lotesvacina = new ArrayList<LoteVacina>();
+	
+	public List<LoteVacina> getLotesvacina() {
+		return lotesvacina;
+	}
+
 	public Local getLocal() {
 		return local;
 	}
@@ -71,9 +91,12 @@ public class Camara {
 	}
 	/**
 	 * Armazenar lote de vacina
+	 * @param primeiroLote 
 	 */
-	public void armazenarLote() {
+	public void armazenarLote(LoteVacina lote) {
 		//TODO
+		this.lotesvacina.add(lote);
+		
 	}
 	/**
 	 * Extrair lote de vacina
@@ -81,6 +104,7 @@ public class Camara {
 	public void extrairLote() {
 		//TODO
 	}
+	
 	
 
 }
