@@ -4,12 +4,22 @@ public class Gestor {
 	private String nome;
 	private String CPF;
 	private int idade;
+	private Local local;
 	
+
 	public Gestor(String nome, String cPF, int idade) {
 		super();
 		this.nome = nome;
-		CPF = cPF;
+		this.CPF = cPF;
 		this.idade = idade;
+		
+	}
+	public Local getLocal() {
+		return local;
+	}
+	
+	public void setLocal(Local local) {
+		this.local = local;
 	}
 	
 	public String getNome() {
@@ -29,6 +39,9 @@ public class Gestor {
 	}
 	public void setIdade(int idade) {
 		this.idade = idade;
+	}
+	public void sendMessager(String s) {
+		System.out.println(s);
 	}
 	
 	

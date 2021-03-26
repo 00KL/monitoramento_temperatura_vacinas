@@ -6,8 +6,7 @@ import com.ufes.sistema_baseados_em_regras.entidades.TipoVacina;
 import com.ufes.sistema_baseados_em_regras.entidades.LoteVacina;
 import com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade
 import com.ufes.sistema_baseados_em_regras.entidades.RegistroIrregularidadeTemp;
-import java.text.DateFormat;
-import java.util.Date;
+
 import java.time.LocalDateTime;
 import java.text.SimpleDateFormat;
 
@@ -37,7 +36,7 @@ rule "Avisando que temperatura está acima da temperatura máxima para dado tipo
 	then
 		LocalDateTime hora_inicio = LocalDateTime.now();
 		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp(TipoIrregularidade.Acima_Da_Temperatura, hora_inicio);
-		System.out.println("Temperatura acima da limite para a vacina " + $nome + ".\nDiminua a tempe 'ratura em " + ($temp - $tempMax) + "°C");
+		System.out.println("Temperatura acima da limite para a vacina " + $nome + ".\nDiminua a temperatura em " + ($temp - $tempMax) + "°C");
 		insert(reg);
 end
 
@@ -53,7 +52,7 @@ end
 rule "Avisando que um dado lote de vacina venceu"
 	when
 		$camara: Camara($num: num, $lotes: lotesvacina)
-		$hoje: Date() from $camara.getHoje
+		$hoje: LocalDateTime() from $camara.getHoje
 		$lote: LoteVacina($validade: dataValidade < $hoje) from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMin: tempMin, $nome: nome) from $lote.getTipoVacina
 		
@@ -62,7 +61,13 @@ rule "Avisando que um dado lote de vacina venceu"
 		System.out.println("Lote venceu no dia: " + $validade + ".\nO descarte é recomendado.");
 end
 
-rule ""
+rule "Checar se a irregularidade foi resolvida a tempo (tempo em temp acima da máxima"
 	when
-		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, $fim: horaFim)
-		
+		$reg: RegistroIrregularidadeTemp($inicio: horaInicio)
+		$camara: Camara($num: num, $temp: tempAtual, $lotes: lotesvacina)
+		$lote: LoteVacina() from $camara.getLotesvacina
+		$hoje: LocalDateTime() from $camara.getHoje
+		$tipo: TipoVacina($tempoMaxAcimaTempIdeal: tempoMaxAcimaTempIdeal > ($hoje - $inicio)) from $lote.getTipoVacina
+	then
+		System.out.println("A vacina passou tempo de mais em temperatura acima da indicada e deve ser descartada.");
+end		

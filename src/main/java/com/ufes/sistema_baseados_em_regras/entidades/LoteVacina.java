@@ -1,13 +1,31 @@
 package com.ufes.sistema_baseados_em_regras.entidades;
 import java.util.Date;
+import java.time.LocalDateTime;
 
 public class LoteVacina {
 	private String numeroSerial;
-	private Date dataFabricacao;
-	private Date dataValidade;
+	private LocalDateTime dataFabricacao;
+	private LocalDateTime dataValidade;
 	private TipoVacina tipoVacina;
 	
 	
+	
+	public LocalDateTime getDataFabricacao() {
+		return dataFabricacao;
+	}
+
+	public void setDataFabricacao(LocalDateTime dataFabricacao) {
+		this.dataFabricacao = dataFabricacao;
+	}
+
+	public LocalDateTime getDataValidade() {
+		return dataValidade;
+	}
+
+	public void setDataValidade(LocalDateTime dataValidade) {
+		this.dataValidade = dataValidade;
+	}
+
 	public TipoVacina getTipoVacina() {
 		return tipoVacina;
 	}
@@ -16,7 +34,7 @@ public class LoteVacina {
 		this.tipoVacina = tipoVacina;
 	}
 
-	public LoteVacina(String numeroSerial, Date dataFabricacao, Date dataValidade) {
+	public LoteVacina(String numeroSerial, LocalDateTime dataFabricacao, LocalDateTime dataValidade) {
 		this.numeroSerial = numeroSerial;
 		this.dataFabricacao = dataFabricacao;
 		this.dataValidade = dataValidade;
@@ -28,17 +46,6 @@ public class LoteVacina {
 	public void setNumeroSerial(String numeroSerial) {
 		this.numeroSerial = numeroSerial;
 	}
-	public Date getDataFabricacao() {
-		return dataFabricacao;
-	}
-	public void setDataFabricacao(Date dataFabricacao) {
-		this.dataFabricacao = dataFabricacao;
-	}
-	public Date getDataValidade() {
-		return dataValidade;
-	}
-	public void setDataValidade(Date dataValidade) {
-		this.dataValidade = dataValidade;
-	}
+	
 
 }

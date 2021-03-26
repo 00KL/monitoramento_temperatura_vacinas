@@ -3,9 +3,6 @@ package com.ufes.sistema_baseados_em_regras.entidades;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import java.text.DateFormat;
-import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
@@ -17,8 +14,8 @@ public class Camara {
 	private LocalDateTime hoje;
 	private List<RegistroIrregularidadeTemp> regIrregularidade;
 	
-	public Date getHoje() {
-		Date dt = new Date();
+	public LocalDateTime getHoje() {
+		LocalDateTime dt = LocalDateTime.now();
 		//SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
 		//formato.format(dt);
 		return dt;
