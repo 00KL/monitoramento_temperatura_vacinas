@@ -1,6 +1,7 @@
 package com.ufes.sistema_baseados_em_regras.entidades;
 
 import java.time.LocalDateTime;
+import com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade;
 
 public class RegistroIrregularidadeTemp {
 	private String numReg;
@@ -17,13 +18,10 @@ public class RegistroIrregularidadeTemp {
 		this.camara = camara;
 	}
 
-	public RegistroIrregularidadeTemp(String numReg,
-			com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade TipoIrregularidade,
-			LocalDateTime horaInicio, LocalDateTime horaTermino) {
-		this.numReg = numReg;
-		this.TipoIrregularidade = TipoIrregularidade;
+	public RegistroIrregularidadeTemp(TipoIrregularidade tipoIrregularidade,
+			LocalDateTime horaInicio) {
+		this.TipoIrregularidade = tipoIrregularidade;
 		this.horaInicio = horaInicio;
-		this.horaTermino = horaTermino;
 	}
 	
 	public String getNumReg() {

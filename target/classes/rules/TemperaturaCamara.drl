@@ -4,10 +4,13 @@ package com.ufes.sistema_baseados_em_regras.trabalho1
 import com.ufes.sistema_baseados_em_regras.entidades.Camara;
 import com.ufes.sistema_baseados_em_regras.entidades.TipoVacina;
 import com.ufes.sistema_baseados_em_regras.entidades.LoteVacina;
-
+import com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade
+import com.ufes.sistema_baseados_em_regras.entidades.RegistroIrregularidadeTemp;
 import java.text.DateFormat;
 import java.util.Date;
+import java.time.LocalDateTime;
 import java.text.SimpleDateFormat;
+
 
 //declare any global variables here
 
@@ -16,13 +19,7 @@ declare Medicao
 	temp: float
 end
 
-declare irregularidade
-	camara : Camara
-	lote: LoteVacina
-	descarte: boolean
-	inicioTempAlta: Date
-	inicioTempBaixa: Date
-end
+
 
 rule "checando temperatura"
     when
@@ -38,7 +35,10 @@ rule "Avisando que temperatura está acima da temperatura máxima para dado tipo
 		$lote: LoteVacina() from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMax: tempMax < $temp, $nome: nome) from $lote.getTipoVacina
 	then
-		System.out.println("Temperatura acima da limite para a vacina " + $nome + ".\nDiminua a temperatura em " + ($temp - $tempMax) + "°C");
+		LocalDateTime hora_inicio = LocalDateTime.now();
+		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp(TipoIrregularidade.Acima_Da_Temperatura, hora_inicio);
+		System.out.println("Temperatura acima da limite para a vacina " + $nome + ".\nDiminua a tempe 'ratura em " + ($temp - $tempMax) + "°C");
+		insert(reg);
 end
 
 rule "Avisando que temperatura está abaixo da temperatura mínima para dado tipo de vacina"
@@ -58,10 +58,11 @@ rule "Avisando que um dado lote de vacina venceu"
 		$tipo: TipoVacina($tempMin: tempMin, $nome: nome) from $lote.getTipoVacina
 		
 	then
-		SimpleDateFormat formatador = new SimpleDateFormat("dd-MM-yyyy");
-		String val = formatador.format($validade);
 		
-		System.out.println("Lote venceu no dia: " + val + ".\nO descarte é recomendado.");
-
+		System.out.println("Lote venceu no dia: " + $validade + ".\nO descarte é recomendado.");
 end
 
+rule ""
+	when
+		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, $fim: horaFim)
+		

@@ -3,16 +3,19 @@ package com.ufes.sistema_baseados_em_regras.entidades;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import java.text.DateFormat;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 
 public class Camara {
 	private String num;
 	private float tempAtual;
 	private int capacidadeMax; //Iremos usar isso?
 	private Local local;
-	private Date hoje;
+	private LocalDateTime hoje;
+	private List<RegistroIrregularidadeTemp> regIrregularidade;
 	
 	public Date getHoje() {
 		Date dt = new Date();
@@ -104,6 +107,23 @@ public class Camara {
 	public void extrairLote() {
 		//TODO
 	}
+
+	public RegistroIrregularidadeTemp getRegIrregularidade(String numReg) {
+		RegistroIrregularidadeTemp regSaida = null;
+		for (RegistroIrregularidadeTemp reg : regIrregularidade){
+			if(reg.getNumReg() == numReg) {
+				regSaida = reg;
+				break;
+			}
+		}
+		return regSaida;
+	}
+
+	public void setRegIrregularidade(RegistroIrregularidadeTemp regIrregularidade) {
+		this.regIrregularidade.add(regIrregularidade);
+	}
+	
+	
 	
 	
 
