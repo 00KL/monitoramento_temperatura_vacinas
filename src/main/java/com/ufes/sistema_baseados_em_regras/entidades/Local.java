@@ -40,6 +40,23 @@ public class Local {
 	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
+	
+	public double dist(Local outroLocal) {
+		double R = 6371e3; //raio da terra em metros
+		double φ1 = this.latitude * Math.PI/180; // φ, λ in radians
+		double φ2 = outroLocal.latitude * Math.PI/180;
+		double Δφ = (outroLocal.latitude-this.latitude) * Math.PI/180;
+		double Δλ = (outroLocal.longitude-this.longitude) * Math.PI/180;
+
+		double a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+		Math.cos(φ1) * Math.cos(φ2) *
+		Math.sin(Δλ/2) * Math.sin(Δλ/2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+		double d = R * c; // in metre
+		return d;
+		
+	}
 
 	
 

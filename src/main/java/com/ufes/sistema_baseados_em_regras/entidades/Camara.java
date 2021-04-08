@@ -1,10 +1,12 @@
 package com.ufes.sistema_baseados_em_regras.entidades;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import com.ufes.sistema_baseados_em_regras.entidades.*;
 
 public class Camara {
 	private String num;
@@ -13,12 +15,35 @@ public class Camara {
 	private Local local;
 	private List<RegistroIrregularidadeTemp> regIrregularidade = new ArrayList<RegistroIrregularidadeTemp>();
 	private List<LoteVacina> lotesvacina = new ArrayList<LoteVacina>();
+	private List<Gestor> listaGestores = new ArrayList<Gestor>();
+	
 
 	public LocalDateTime getAgora() {
 		LocalDateTime dt = LocalDateTime.now();
 		//SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
 		//formato.format(dt);
 		return dt;
+	}
+	
+	public void addGestor(Gestor g) {
+		listaGestores.add(g);
+	}
+	
+	public Gestor gestorProximo() {
+		double auxDist = 9999999999999999999999999999.0;
+		Gestor auxGestor = new Gestor("descartavel", "123", 36);
+		Iterator<Gestor> it = this.listaGestores.iterator();
+	    while(it.hasNext()) {
+	      Gestor i = it.next();
+	      double dist = this.local.dist(i.getLocal());
+//	      System.out.println(dist);
+	      if(auxDist > dist) {
+//	    	System.out.println(dist);
+	        auxDist = dist;
+	        auxGestor = i;
+	      }
+	    }
+	    return auxGestor;
 	}
 	
 	public List<LoteVacina> getLotesvacina() {
@@ -129,5 +154,6 @@ public class Camara {
 	public void removerIrregularidade(RegistroIrregularidadeTemp regIrregularidade) {
 		this.regIrregularidade.remove(regIrregularidade);
 	}
+	
 
 }

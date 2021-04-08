@@ -40,7 +40,8 @@ public class Gestor {
 	public void setIdade(int idade) {
 		this.idade = idade;
 	}
-	public void sendMessager(String s) {
+	public void sendMessage(String s) {
+		System.out.println("Gestor " + this.nome + " recebeu mensagem:");
 		System.out.println(s);
 	}
 	

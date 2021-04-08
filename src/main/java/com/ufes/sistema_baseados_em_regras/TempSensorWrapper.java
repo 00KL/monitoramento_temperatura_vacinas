@@ -19,13 +19,13 @@ public class TempSensorWrapper implements Runnable{
 	{
 		while (true) {
 			try {				
-		        TempApi.CamaraInfo info = TempApi.buscarInfo(); //Consultamos as informações partindo de uma api.
+		        TempApi.CamaraInfo info = TempApi.buscarInfo(); //Consultamos as informaï¿½ï¿½es partindo de uma api.
 				
 		        if(info != null) { //Se a API retornar corretamente, fazemos o update.
 		        	Camara camara = (Camara) kSession.getObject(fact); //Pegamos a referencia para o objeto a partir do FactHandle.
-				
+		       
 					camara.setTempAtual(info.getTemp()); //Atualizamos sua temperatura.
-					kSession.update(fact, camara); //Atualizamos o Fact na sessão. (isso irá desencadear um check nas regras novamente)
+					kSession.update(fact, camara); //Atualizamos o Fact na sessï¿½o. (isso irï¿½ desencadear um check nas regras novamente)
 		        }
 				
 				Thread.sleep(3000); //Aguardamos 3s.
