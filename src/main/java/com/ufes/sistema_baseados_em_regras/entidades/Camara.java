@@ -11,16 +11,15 @@ public class Camara {
 	private float tempAtual;
 	private int capacidadeMax; //Iremos usar isso?
 	private Local local;
-	private LocalDateTime hoje;
-	private List<RegistroIrregularidadeTemp> regIrregularidade;
-	
-	public LocalDateTime getHoje() {
+	private List<RegistroIrregularidadeTemp> regIrregularidade = new ArrayList<RegistroIrregularidadeTemp>();
+	private List<LoteVacina> lotesvacina = new ArrayList<LoteVacina>();
+
+	public LocalDateTime getAgora() {
 		LocalDateTime dt = LocalDateTime.now();
 		//SimpleDateFormat formato = new SimpleDateFormat("dd/mm/yyyy");
 		//formato.format(dt);
 		return dt;
 	}
-	private List<LoteVacina> lotesvacina = new ArrayList<LoteVacina>();
 	
 	public List<LoteVacina> getLotesvacina() {
 		return lotesvacina;
@@ -98,13 +97,15 @@ public class Camara {
 		this.lotesvacina.add(lote);
 		
 	}
+	
 	/**
 	 * Extrair lote de vacina
 	 */
-	public void extrairLote() {
-		//TODO
+	public void extrairLote(LoteVacina lote) {
+		this.lotesvacina.remove(lote);
 	}
 
+	/*
 	public RegistroIrregularidadeTemp getRegIrregularidade(String numReg) {
 		RegistroIrregularidadeTemp regSaida = null;
 		for (RegistroIrregularidadeTemp reg : regIrregularidade){
@@ -115,13 +116,18 @@ public class Camara {
 		}
 		return regSaida;
 	}
+	*/
+	
+	public List<RegistroIrregularidadeTemp> getRegIrregularidade(){
+		return this.regIrregularidade;
+	}
 
-	public void setRegIrregularidade(RegistroIrregularidadeTemp regIrregularidade) {
+	public void registrarIrregularidade(RegistroIrregularidadeTemp regIrregularidade) {
 		this.regIrregularidade.add(regIrregularidade);
 	}
 	
-	
-	
-	
+	public void removerIrregularidade(RegistroIrregularidadeTemp regIrregularidade) {
+		this.regIrregularidade.remove(regIrregularidade);
+	}
 
 }

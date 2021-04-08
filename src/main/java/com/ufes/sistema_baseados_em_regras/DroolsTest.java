@@ -22,23 +22,30 @@ public class DroolsTest {
     	    KieContainer kContainer = ks.getKieClasspathContainer();
         	KieSession kSession = kContainer.newKieSession("ksession-rules");
         	
-        	Camara pedro = new Camara("0001", 30); //Criamos um camara sem temperatura.
+        	//Inicializar camaras
+        	Camara camara1 = new Camara("0001", 30); //Criamos um camara sem temperatura.
         	
-        	//TODO Criar lotes de vacina e colocar eles na camara
-        	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        	
-        	
-        	TipoVacina butantan = new TipoVacina("pfizer","Butantan", 2, 8, 60, 120);
-        	LoteVacina primeiroLote = new LoteVacina("123", LocalDateTime.of(2020,  Month.APRIL, 29, 0,0,0), LocalDateTime.of(2020,  Month.MAY, 29, 0,0,0));
+        	//Inserir lotes de vacinas na camara 1
+        	//PARA O TIPO DE VACINA, TEMPOS LIMITES SÃO DADOS EM SEGUNDOS!
+        	TipoVacina butantan = new TipoVacina("pfizer","Butantan", 2, 8, 60*60, 0.1*60);
+        	LoteVacina primeiroLote = new LoteVacina("123", LocalDateTime.of(2020,  Month.APRIL, 29, 0,0,0), LocalDateTime.of(2021,  Month.MAY, 29, 0,0,0));
         	primeiroLote.setTipoVacina(butantan);
-        	pedro.armazenarLote(primeiroLote);
+        	camara1.armazenarLote(primeiroLote);
+        	TipoVacina oxford = new TipoVacina("5151","Oxford", -1, 10, 60*60, 120*60);
+        	LoteVacina segundoLote = new LoteVacina("312", LocalDateTime.of(2020,  Month.APRIL, 29, 0,0,0), LocalDateTime.of(2021,  Month.JANUARY, 29, 0,0,0));
+        	segundoLote.setTipoVacina(oxford);
+        	camara1.armazenarLote(segundoLote);
         	
+        	//Inserir camara1 na KieSession.
+        	FactHandle fato = kSession.insert(camara1); 
+        	
+        	//Threads das Camaras
+        	Thread threadCamara1 = new Thread( new TempSensorWrapper(kSession, fato)); //Criamos uma thread que cuidarï¿½ da temperatura dessa camara.
+        	threadCamara1.start(); //Iniciamos a thread.
+        	
+        	//Inserir gestor na KieSession
         	Gestor lucas = new Gestor("Lucas", "hfasdjlfasdk", 23);
-        	
-        	FactHandle fato = kSession.insert(pedro); //Inserimos ela na KieSession.
         	kSession.insert(lucas);
-        	Thread t1 = new Thread( new TempSensorWrapper(kSession, fato)); //Criamos uma thread que cuidarï¿½ da temperatura dessa camara.
-        	t1.start(); //Iniciamos a thread.
         	
         	kSession.fireUntilHalt();//Iniciamos os checks das regras indefinidamente (atï¿½ forï¿½ar a parada do sistema).
         } catch (Throwable t) {

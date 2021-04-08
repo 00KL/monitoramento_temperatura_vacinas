@@ -1,15 +1,26 @@
 package com.ufes.sistema_baseados_em_regras.entidades;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+
 import com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade;
 
 public class RegistroIrregularidadeTemp {
 	private String numReg;
-	private TipoIrregularidade TipoIrregularidade;
+	private TipoIrregularidade tipoIrregularidade;
 	private LocalDateTime horaInicio;
 	private LocalDateTime horaTermino;
 	private Camara camara;
+	private LoteVacina lote;
 	
+	public LoteVacina getLote() {
+		return lote;
+	}
+
+	public void setLote(LoteVacina lote) {
+		this.lote = lote;
+	}
+
 	public Camara getCamara() {
 		return camara;
 	}
@@ -18,10 +29,11 @@ public class RegistroIrregularidadeTemp {
 		this.camara = camara;
 	}
 
-	public RegistroIrregularidadeTemp(TipoIrregularidade tipoIrregularidade,
-			LocalDateTime horaInicio) {
-		this.TipoIrregularidade = tipoIrregularidade;
-		this.horaInicio = horaInicio;
+	public RegistroIrregularidadeTemp(Camara camara, LoteVacina lote, TipoIrregularidade tipoIrregularidade) {
+		this.camara = camara;
+		this.lote = lote;
+		this.tipoIrregularidade = tipoIrregularidade;
+		this.horaInicio = LocalDateTime.now();
 	}
 	
 	public String getNumReg() {
@@ -43,10 +55,15 @@ public class RegistroIrregularidadeTemp {
 		this.horaTermino = horaTermino;
 	}
 	public TipoIrregularidade getTipoIrregularidade() {
-		return TipoIrregularidade;
+		return tipoIrregularidade;
 	}
-	public void setTipoIrregularidade(TipoIrregularidade TipoIrregularidade) {
-		this.TipoIrregularidade = TipoIrregularidade;
+	public void setTipoIrregularidade(TipoIrregularidade tipoIrregularidade) {
+		this.tipoIrregularidade = tipoIrregularidade;
+	}
+	
+	public double diferencaEmSegundos(LocalDateTime data1, LocalDateTime data2) {
+		long minutes = LocalDateTime.from(data1).until(data2, ChronoUnit.SECONDS);
+		return (double)minutes;
 	}
 
 }

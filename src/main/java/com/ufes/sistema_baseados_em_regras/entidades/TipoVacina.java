@@ -1,22 +1,25 @@
 package com.ufes.sistema_baseados_em_regras.entidades;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;;
+
 public class TipoVacina {
 	private String codigoIdentificacao;
 	private String nome;
-	private float tempMin;
-	private float tempMax;
-	private int tempoMaxAcimaTempIdeal;
-	private int tempoMaximoAbaixoTempIdeal;
+	private double tempMin;
+	private double tempMax;
+	private double tempoMaxAcimaTempIdeal;
+	private double tempoMaxAbaixoTempIdeal;
 	
 	
-	public TipoVacina(String codigoIdentificacao, String nome, float tempMin, float tempMax, int tempoMaxAcimaTempIdeal,
-			int tempoMaximoAbaixoTempIdeal) {
+	public TipoVacina(String codigoIdentificacao, String nome, double tempMin, double tempMax, double tempoMaxAcimaTempIdeal,
+			double tempoMaxAbaixoTempIdeal) {
 		this.codigoIdentificacao = codigoIdentificacao;
 		this.nome = nome;
 		this.tempMin = tempMin;
 		this.tempMax = tempMax;
 		this.tempoMaxAcimaTempIdeal = tempoMaxAcimaTempIdeal;
-		this.tempoMaximoAbaixoTempIdeal = tempoMaximoAbaixoTempIdeal;
+		this.tempoMaxAbaixoTempIdeal = tempoMaxAbaixoTempIdeal;
 	}
 	
 	public String getCodigoIdentificacao() {
@@ -31,30 +34,28 @@ public class TipoVacina {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public float getTempMin() {
+	public double getTempMin() {
 		return tempMin;
 	}
-	public void setTempMin(float tempMin) {
+	public void setTempMin(double tempMin) {
 		this.tempMin = tempMin;
 	}
-	public float getTempMax() {
+	public double getTempMax() {
 		return tempMax;
 	}
-	public void setTempMax(float tempMax) {
+	public void setTempMax(double tempMax) {
 		this.tempMax = tempMax;
 	}
-	public int getTempoMaxAcimaTempIdeal() {
+	public double getTempoMaxAcimaTempIdeal() {
 		return tempoMaxAcimaTempIdeal;
 	}
-	public void setTempoMaxAcimaTempIdeal(int tempoMaxAcimaTempIdeal) {
+	public void setTempoMaxAcimaTempIdeal(double tempoMaxAcimaTempIdeal) {
 		this.tempoMaxAcimaTempIdeal = tempoMaxAcimaTempIdeal;
 	}
-	public int getTempoMaximoAbaixoTempIdeal() {
-		return tempoMaximoAbaixoTempIdeal;
+	public double getTempoMaxAbaixoTempIdeal() {
+		return tempoMaxAbaixoTempIdeal;
 	}
-	public void setTempoMaximoAbaixoTempIdeal(int tempoMaximoAbaixoTempIdeal) {
-		this.tempoMaximoAbaixoTempIdeal = tempoMaximoAbaixoTempIdeal;
+	public void setTempoMaxAbaixoTempIdeal(double tempoMaximoAbaixoTempIdeal) {
+		this.tempoMaxAbaixoTempIdeal = tempoMaximoAbaixoTempIdeal;
 	}
-	
-	
 }

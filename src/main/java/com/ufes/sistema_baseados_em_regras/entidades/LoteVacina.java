@@ -1,5 +1,5 @@
 package com.ufes.sistema_baseados_em_regras.entidades;
-import java.util.Date;
+
 import java.time.LocalDateTime;
 
 public class LoteVacina {
@@ -7,9 +7,16 @@ public class LoteVacina {
 	private LocalDateTime dataFabricacao;
 	private LocalDateTime dataValidade;
 	private TipoVacina tipoVacina;
+	private boolean perigoTemperatura = false;
 	
-	
-	
+	public boolean isPerigoTemperatura() {
+		return perigoTemperatura;
+	}
+
+	public void setPerigoTemperatura(boolean perigoTemperatura) {
+		this.perigoTemperatura = perigoTemperatura;
+	}
+
 	public LocalDateTime getDataFabricacao() {
 		return dataFabricacao;
 	}
