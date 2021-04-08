@@ -41,7 +41,7 @@ public class Gestor {
 		this.idade = idade;
 	}
 	public void sendMessage(String s) {
-		System.out.println("Gestor " + this.nome + " recebeu mensagem:");
+		System.out.print("Gestor " + this.nome + " recebeu mensagem: ");
 		System.out.println(s);
 	}
 	
