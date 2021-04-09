@@ -28,56 +28,76 @@ rule "Checando temperatura"
         System.out.println("Camara " + $num + " com a temperatura de: " + $temp);
 end
 */
-/*Caso a temperatura de uma cÃ¢mara de vacina fique fora dos limites dos
-parÃ¢metros definidos (situaÃ§Ã£o grave), o gestor que estiver mais perto do local
+/*Caso a temperatura de uma camara de vacina fique fora dos limites dos
+parametros definidos (situacao grave), o gestor que estiver mais perto do local
 do armazenamento da vacina deve ser chamado para comparecer ao local;*/
 
 rule "Checando se temperatura esta proxima ao limite minimo de um lote"
 	when
 		$camara: Camara($num: num, $temp: tempAtual)
-		$lote: LoteVacina($perigo: perigoTemperatura == false) from $camara.getLotesvacina
+		$lote: LoteVacina($serial: numeroSerial, $perigo: perigoTemperatura == false) from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMin: tempMin > ($temp - 1), $nome: nome) from $lote.getTipoVacina
 	then
-		System.out.println("CAMARA: " + $num + " -> " + "ATENï¿½ï¿½O! Temperatura muito baixa para a vacina " + $nome + "!");
+		System.out.println("CAMARA: " + $num + " -> " + "ATENCAO! Temperatura muito baixa para o lote " + $serial + " de vacina do tipo " + $nome + "!");
 end
 
 rule "Checando se temperatura esta proxima ao limite maximo de um lote"
 	when
 		$camara: Camara($num: num, $temp: tempAtual)
-		$lote: LoteVacina(perigo: perigoTemperatura == false) from $camara.getLotesvacina
+		$lote: LoteVacina($serial: numeroSerial, perigo: perigoTemperatura == false) from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMax: tempMax < ($temp + 1), $nome: nome) from $lote.getTipoVacina
 	then
-		System.out.println("CAMARA: " + $num + " -> " + "ATENï¿½ï¿½O! Temperatura muito alta para a vacina " + $nome + "!");
+		System.out.println("CAMARA: " + $num + " -> " + "ATENCAO! Temperatura muito alta para o lote " + $serial + " de vacina do tipo " + $nome + "!");
 end
 
 rule "Checando se temperatura esta acima da temperatura maxima para dado tipo de vacina"
 	when
 		$camara: Camara($num: num, $temp: tempAtual)
-		$lote: LoteVacina($perigo: perigoTemperatura == false) from $camara.getLotesvacina
+		$lote: LoteVacina($serial: numeroSerial, $perigo: perigoTemperatura == false) from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMax: tempMax < $temp, $nome: nome) from $lote.getTipoVacina
 	then
-		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura acima da limite para a vacina " + $nome + ". Diminua a temperatura em pelo menos " + ($temp - $tempMax) + "ï¿½C";
+		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura acima do limite para o lote " + $serial + " de vacina do tipo " + $nome + ". Diminua a temperatura para abaixo de " + $tempMax + " °C";
 		Gestor proximo = $camara.gestorProximo();
 		proximo.sendMessage(msg);
 		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp($camara, $lote, TipoIrregularidade.Acima_da_Temperatura);
 		$lote.setPerigoTemperatura(true);
-		//System.out.println(msg);
 		$camara.registrarIrregularidade(reg);
 end
 
 rule "Checando se temperatura esta abaixo da temperatura minima para dado tipo de vacina"
 	when
 		$camara: Camara($num: num, $temp: tempAtual)
-		$lote: LoteVacina($perigo: perigoTemperatura == false) from $camara.getLotesvacina
+		$lote: LoteVacina($serial: numeroSerial, $perigo: perigoTemperatura == false) from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMin: tempMin > $temp, $nome: nome) from $lote.getTipoVacina
 	then
-		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura abaixo da limite para a vacina " + $nome + ". Diminua a temperatura em pelo menos " + ($temp - $tempMin) + "ï¿½C";
+		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura abaixo do limite para o lote " + $serial + " de vacina do tipo " + $nome + ". Aumente a temperatura para acima de " + $tempMin + " °C";
 		Gestor proximo = $camara.gestorProximo();
 		proximo.sendMessage(msg);
-		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp($camara, $lote, TipoIrregularidade.Acima_da_Temperatura);
+		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp($camara, $lote, TipoIrregularidade.Abaixo_da_Temperatura);
 		$lote.setPerigoTemperatura(true);
-		//System.out.println(msg);
 		$camara.registrarIrregularidade(reg);
+end
+
+rule "Checando se uma irregularidade de temperatura baixa foi resolvida"
+	when
+		$camara: Camara($num: num, $temp: tempAtual)
+		$lote: LoteVacina($serial: numeroSerial, $perigo: perigoTemperatura == true) from $camara.getLotesvacina
+		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, loteReg: lote == $lote, tipoIrreg: tipoIrregularidade == TipoIrregularidade.Abaixo_da_Temperatura) from $camara.getRegIrregularidade
+		$tipo: TipoVacina($nome: nome, $tempMin: tempMin <= $temp) from $lote.getTipoVacina
+	then
+		System.out.println("CAMARA: " + $num + " -> " + "UFA! O lote " + $serial + " de vacina do tipo " + $nome + " está a salvo! A temperatura da camara subiu para " + $temp + " °C");
+		$camara.removerIrregularidade($reg);
+end
+
+rule "Checando se uma irregularidade de temperatura alta foi resolvida"
+	when
+		$camara: Camara($num: num, $temp: tempAtual)
+		$lote: LoteVacina($serial: numeroSerial, $perigo: perigoTemperatura == true) from $camara.getLotesvacina
+		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, loteReg: lote == $lote, tipoIrreg: tipoIrregularidade == TipoIrregularidade.Acima_da_Temperatura) from $camara.getRegIrregularidade
+		$tipo: TipoVacina($nome: nome, $tempMax: tempMax >= $temp) from $lote.getTipoVacina
+	then
+		System.out.println("CAMARA: " + $num + " -> " + "UFA! O lote " + $serial + " de vacina do tipo " + $nome + " está a salvo! A temperatura da camara diminuiu para " + $temp + " °C");
+		$camara.removerIrregularidade($reg);
 end
 
 rule "Checando se um dado lote de vacina venceu"
@@ -89,10 +109,10 @@ rule "Checando se um dado lote de vacina venceu"
 		
 	then
 		$camara.extrairLote($lote);
-		System.out.println("CAMARA: " + $num + " -> " + "DESCARTE! Lote de numero " + $serial + " de vacina do tipo " + $nome + " venceu no dia: " + $validade + ". O descarte e recomendado.");
+		System.out.println("CAMARA: " + $num + " -> " + "DESCARTE! Lote " + $serial + " de vacina do tipo " + $nome + " venceu no dia: " + $validade + ". O descarte e recomendado.");
 end
 
-rule "Checar se a irregularidade nï¿½o foi resolvida a tempo (temp acima da maxima)"
+rule "Checar se a irregularidade nao foi resolvida a tempo (temp acima da maxima)"
 	when
 		$camara: Camara($num: num, $temp: tempAtual, $lotes: lotesvacina)
 		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, tipoIrreg: tipoIrregularidade == TipoIrregularidade.Acima_da_Temperatura) from $camara.getRegIrregularidade
@@ -100,12 +120,12 @@ rule "Checar se a irregularidade nï¿½o foi resolvida a tempo (temp acima da maxi
 		$hoje: LocalDateTime() from $camara.getAgora
 		$tipo: TipoVacina($nome: nome, $tempoMaxAcimaTempIdeal: tempoMaxAcimaTempIdeal < $reg.diferencaEmSegundos($inicio, $hoje)) from $lote.getTipoVacina
 	then
-		System.out.println("CAMARA: " + $num + " -> " + "DESCARTE! O lote de numero " + $serial + " de vacina do tipo " + $nome + " passou mais de " + $tempoMaxAcimaTempIdeal/60 + " minutos em temperatura acima da indicada e deve ser descartado.");
+		System.out.println("CAMARA: " + $num + " -> " + "DESCARTE! O lote " + $serial + " de vacina do tipo " + $nome + " passou mais de " + $tempoMaxAcimaTempIdeal/60 + " minutos em temperatura acima da indicada e deve ser descartado.");
 		$camara.extrairLote($lote);
 		$camara.removerIrregularidade($reg);
 end
 
-rule "Checar se a irregularidade nï¿½o foi resolvida a tempo (temp abaixo da maxima)"
+rule "Checar se a irregularidade nao foi resolvida a tempo (temp abaixo da maxima)"
 	when
 		$camara: Camara($num: num, $temp: tempAtual)
 		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, tipoIrreg: tipoIrregularidade == TipoIrregularidade.Abaixo_da_Temperatura) from $camara.getRegIrregularidade
@@ -113,7 +133,7 @@ rule "Checar se a irregularidade nï¿½o foi resolvida a tempo (temp abaixo da max
 		$agora: LocalDateTime() from $camara.getAgora
 		$tipo: TipoVacina($nome: nome, $tempoMaxAbaixoTempIdeal: tempoMaxAbaixoTempIdeal < $reg.diferencaEmSegundos($inicio, $agora)) from $lote.getTipoVacina
 	then
-		System.out.println("CAMARA: " + $num + " -> " + "DESCARTE! O lote de numero " + $serial + " de vacina do tipo " + $nome + " passou mais de " + $tempoMaxAbaixoTempIdeal/60 + " minutos em temperatura abaixo da indicada e deve ser descartado.");
+		System.out.println("CAMARA: " + $num + " -> " + "DESCARTE! O lote " + $serial + " de vacina do tipo " + $nome + " passou mais de " + $tempoMaxAbaixoTempIdeal/60 + " minutos em temperatura abaixo da indicada e deve ser descartado.");
 		$camara.extrairLote($lote);
 		$camara.removerIrregularidade($reg);
 end

@@ -31,14 +31,14 @@ public class Camara {
 	
 	public Gestor gestorProximo() {
 		double auxDist = 9999999999999999999999999999.0;
-		Gestor auxGestor = new Gestor("descartavel", "123", 36);
+		Gestor auxGestor = null;
 		Iterator<Gestor> it = this.listaGestores.iterator();
 	    while(it.hasNext()) {
 	      Gestor i = it.next();
 	      double dist = this.local.dist(i.getLocal());
-//	      System.out.println(dist);
-	      if(auxDist > dist) {
-//	    	System.out.println(dist);
+	      //System.out.println(this.getLocal().getLatitude());
+	      if(dist < auxDist) {
+	    	//System.out.println(dist);
 	        auxDist = dist;
 	        auxGestor = i;
 	      }
