@@ -11,27 +11,6 @@ import com.ufes.sistema_baseados_em_regras.entidades.Gestor;
 import java.time.LocalDateTime;
 import java.text.SimpleDateFormat;
 
-
-//declare any global variables here
-
-declare Medicao
-	camara: Camara
-	temp: float
-end
-
-
-/*
-rule "Checando temperatura"
-    when
-        $camara: Camara($num: num, $temp: tempAtual)
-    then
-        System.out.println("Camara " + $num + " com a temperatura de: " + $temp);
-end
-*/
-/*Caso a temperatura de uma camara de vacina fique fora dos limites dos
-parametros definidos (situacao grave), o gestor que estiver mais perto do local
-do armazenamento da vacina deve ser chamado para comparecer ao local;*/
-
 rule "Checando se temperatura esta proxima ao limite minimo de um lote"
 	when
 		$camara: Camara($num: num, $temp: tempAtual)
