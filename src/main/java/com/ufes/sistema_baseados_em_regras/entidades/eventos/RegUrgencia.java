@@ -7,7 +7,6 @@ import com.ufes.sistema_baseados_em_regras.entidades.Gestor;
 import com.ufes.sistema_baseados_em_regras.entidades.RegistroIrregularidadeTemp;
 
 @Timestamp("time")
-@Expires("20s")
 public class RegUrgencia extends Evento {
 	private RegistroIrregularidadeTemp reg;
 	private Gestor gestor;

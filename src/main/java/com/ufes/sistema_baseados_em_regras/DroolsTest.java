@@ -14,6 +14,7 @@ import org.kie.api.runtime.rule.FactHandle;
 import com.ufes.sistema_baseados_em_regras.entidades.Camara;
 import com.ufes.sistema_baseados_em_regras.entidades.LoteVacina;
 import com.ufes.sistema_baseados_em_regras.entidades.TipoVacina;
+import com.ufes.sistema_baseados_em_regras.servico.RegService;
 import com.ufes.sistema_baseados_em_regras.servico.TemperatureService;
 import com.ufes.sistema_baseados_em_regras.entidades.Gestor;
 import com.ufes.sistema_baseados_em_regras.entidades.Local;
@@ -35,6 +36,7 @@ public class DroolsTest {
         	config.setOption( EventProcessingOption.STREAM );
         	
         	TemperatureService.kSession = kSession;
+        	RegService.kSession = kSession;
         	
         	//Inicializar localizacoes
         	Local localCamara1 = new Local("local1",1.2, 1.2);

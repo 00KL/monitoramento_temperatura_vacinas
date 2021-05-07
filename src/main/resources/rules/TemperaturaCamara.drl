@@ -8,6 +8,7 @@ import com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade;
 import com.ufes.sistema_baseados_em_regras.entidades.RegistroIrregularidadeTemp;
 import com.ufes.sistema_baseados_em_regras.entidades.Gestor;
 import com.ufes.sistema_baseados_em_regras.entidades.eventos.RegistroTemperatura;
+import com.ufes.sistema_baseados_em_regras.entidades.eventos.RegUrgencia;
 
 import java.time.LocalDateTime;
 import java.text.SimpleDateFormat;
@@ -17,12 +18,17 @@ query "retornaRegistrosTemperatura" (String id)
 	reg: RegistroTemperatura (num: numCamara == id) over window:time( 10s )
 end
 
+query "alertaUrgente" ()
+	reg: RegUrgencia ()
+end
+
 //--------- Regras ----------------
+
 rule "Registro de nova temperatura"
 	when
 		camara: Camara($num: num, $temp: tempAtual)
 	then
-		insert(new RegistroTemperatura($num, $temp));
+		insertLogical(new RegistroTemperatura($num, $temp));
 end
 
 rule "Checando se temperatura esta proxima ao limite minimo de um lote"
@@ -55,6 +61,7 @@ rule "Checando se temperatura esta acima da temperatura maxima para dado tipo de
 		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp($camara, $lote, TipoIrregularidade.Acima_da_Temperatura);
 		$lote.setPerigoTemperatura(true);
 		$camara.registrarIrregularidade(reg);
+		insert(new RegUrgencia(reg, proximo));
 end
 
 rule "Checando se temperatura esta abaixo da temperatura minima para dado tipo de vacina"
@@ -69,6 +76,7 @@ rule "Checando se temperatura esta abaixo da temperatura minima para dado tipo d
 		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp($camara, $lote, TipoIrregularidade.Abaixo_da_Temperatura);
 		$lote.setPerigoTemperatura(true);
 		$camara.registrarIrregularidade(reg);
+		insert(new RegUrgencia(reg, proximo));
 end
 
 rule "Checando se uma irregularidade de temperatura baixa foi resolvida"
