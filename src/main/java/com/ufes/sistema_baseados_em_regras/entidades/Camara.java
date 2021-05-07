@@ -8,11 +8,23 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import com.ufes.sistema_baseados_em_regras.entidades.*;
 
+import jakarta.json.bind.annotation.JsonbTransient;
+
 public class Camara {
 	private String num;
 	private float tempAtual;
 	private int capacidadeMax; //Iremos usar isso?
 	private Local local;
+	private boolean defeituosa = false;
+	public boolean isDefeituosa() {
+		return defeituosa;
+	}
+
+	public void setDefeituosa() {
+		this.defeituosa = true;
+	}
+
+	@JsonbTransient
 	private List<RegistroIrregularidadeTemp> regIrregularidade = new ArrayList<RegistroIrregularidadeTemp>();
 	private List<LoteVacina> lotesvacina = new ArrayList<LoteVacina>();
 	private List<Gestor> listaGestores = new ArrayList<Gestor>();

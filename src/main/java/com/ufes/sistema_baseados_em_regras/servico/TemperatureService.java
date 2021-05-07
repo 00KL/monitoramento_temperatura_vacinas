@@ -30,8 +30,7 @@ public class TemperatureService {
      	
      	//para cada objeto retornado pela query, adiciona no array
     	for ( QueryResultsRow row : results ) {
-    
-    		System.out.println("m a m a q");
+
     		RegistroTemperatura reg = (RegistroTemperatura)row.get("reg");	
     		regs.add(reg);
        	

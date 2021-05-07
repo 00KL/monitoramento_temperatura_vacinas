@@ -10,6 +10,7 @@ public class TempAumentaEVoltaWrapper implements Runnable{
 	FactHandle fact;
 	double temp = 3;
 	double steps = 0.5;
+	int sleepTime = 600;
 	
 	public TempAumentaEVoltaWrapper(KieSession kSession, FactHandle fact) {
 		this.kSession = kSession;
@@ -26,13 +27,13 @@ public class TempAumentaEVoltaWrapper implements Runnable{
 				kSession.update(fact, camara); //Atualizamos o Fact na sessao. (isso ira desencadear um check nas regras novamente)
 				
 				temp = temp + steps;
-				if(temp > 15)
+				if(temp > 15 || temp < -1) {
 					steps = (-1) * steps; //Temperatura aumenta at� 15 e depois come�a a diminuir.
-				if(temp < 2) //Ao ficar abaixo de 2, se mantem constante.
-					steps = 0;
+					sleepTime = 100;
+				}
 				
 				kSession.fireAllRules();
-				Thread.sleep(800); //Aguardamos 1s.
+				Thread.sleep(sleepTime); //Aguardamos 1s.
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
