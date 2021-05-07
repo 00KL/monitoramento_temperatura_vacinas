@@ -1,10 +1,11 @@
 package com.ufes.sistema_baseados_em_regras.entidades.eventos;
 
 import org.kie.api.definition.type.Expires;
+import org.kie.api.definition.type.Role;
 import org.kie.api.definition.type.Timestamp;
 
-@Timestamp("time")
-@Expires("20s")
+
+@Role(Role.Type.EVENT)
 public class RegistroTemperatura extends Evento {
     
     private double temp;

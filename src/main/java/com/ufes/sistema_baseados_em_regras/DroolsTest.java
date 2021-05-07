@@ -27,7 +27,7 @@ import java.time.Month;
 public class DroolsTest {
 	public static final void main(String[] args) {
         try {
-	        KieServices ks = KieServices.Factory.get();
+        	KieServices ks = KieServices.Factory.get();
     	    KieContainer kContainer = ks.getKieClasspathContainer();
         	KieSession kSession = kContainer.newKieSession("ksession-rules");
         	

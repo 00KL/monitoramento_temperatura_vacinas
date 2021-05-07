@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 
 //--------- Queries utilizadas pelos recursos do serviço ----------------
 query "retornaRegistrosTemperatura" (String id)
-	reg: RegistroTemperatura (num: numCamara == id)
+	reg: RegistroTemperatura (num: numCamara == id) over window:time( 10s )
 end
 
 //--------- Regras ----------------
@@ -22,7 +22,7 @@ rule "Registro de nova temperatura"
 	when
 		camara: Camara($num: num, $temp: tempAtual)
 	then
-		insertLogical(new RegistroTemperatura($num, $temp));
+		insert(new RegistroTemperatura($num, $temp));
 end
 
 rule "Checando se temperatura esta proxima ao limite minimo de um lote"
