@@ -29,8 +29,8 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/T-Gamer/Desktop/UFES/SistemasDeRegras/monitoramento-temperatura-vacinas/jackson-databind-2.12.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/T-Gamer/Desktop/UFES/SistemasDeRegras/monitoramento-temperatura-vacinas/jackson-core-2.12.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/T-Gamer/Desktop/UFES/SistemasDeRegras/monitoramento-temperatura-vacinas/jackson-annotations-2.12.2.jar"/>
+	<classpathentry kind="lib" path="/home/lucas/eclipse-workspace/monitoramento_temperatura_vacinas/jackson-databind-2.12.2.jar"/>
+	<classpathentry kind="lib" path="/home/lucas/eclipse-workspace/monitoramento_temperatura_vacinas/jackson-core-2.12.2.jar"/>
+	<classpathentry kind="lib" path="/home/lucas/eclipse-workspace/monitoramento_temperatura_vacinas/jackson-annotations-2.12.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

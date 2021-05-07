@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<script src="https://cdn.jsdelivr.net/npm/vega@3">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@2">
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@3">
+	</script>
+</head>
+<body>
+Example 
+<p>
+	<div id="vis">
+	</div>
+</p>
+
+Mostra as últimas medidas de temperatura do Paciente (como definido na janela temporal da regra)
+
+<table id="algumacoisa">
+	<thead>
+		<tr>
+		<th> Id </th>
+		<th> Temp </th>
+		</tr>
+	</thead>
+	<tbody>
+		
+	</tbody>
+</table>
+<script>
+	
+	
+      fetch('http://localhost:8080/myapp/temperatura/0015')
+          .then((response) => {
+              return response.json()
+          })
+          .then((d) => {
+              // Work with JSON data here
+             var algo = document.querySelector("#algumacoisa tbody")      
+             for (i in d) {
+                   const line = document.createElement("tr")
+         		   const num = document.createElement("td")
+         		   num.innerHTML = d[i].numCamara
+         		   const temp = document.createElement("td")
+         		   temp.innerHTML = d[i].temp
+                   line.appendChild(num)
+                   line.appendChild(temp)
+                   algo.appendChild(line)
+              }
+
+      })
+
+         .catch((err) => {
+             // Do something for an error here
+             console.log(err);
+     })
+
+	    
+	    .catch(console.warn);
+</script>
+</body>

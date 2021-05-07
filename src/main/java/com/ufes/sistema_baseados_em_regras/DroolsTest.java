@@ -131,7 +131,7 @@ public class DroolsTest {
         // create a resource config that scans for JAX-RS resources and providers
         // in sbr.tbservice package
     	
-        final ResourceConfig rc = new ResourceConfig().packages("com.ufes.sistema_baseados_em_regras");
+        final ResourceConfig rc = new ResourceConfig().packages("com.ufes.sistema_baseados_em_regras").register(new CorsFilter());
         
         
         // create and start a new instance of grizzly http server

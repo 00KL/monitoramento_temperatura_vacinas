@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+
+<body>
+    
+   Pessoas com Suspeita de Tuberculose
+    
+   <div id="mapdiv" style="width: 700px; height: 500px;"></div>
+  <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
+  <script>
+    map = new OpenLayers.Map("mapdiv");
+  //  map.addLayer(new OpenLayers.Layer.OSM());
+
+      map.addLayer (new OpenLayers.Layer.OSM("OpenCycleMap",
+  ["http://a.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   "http://b.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png",
+   "http://c.tile.opencyclemap.org/cycle/${z}/${x}/${y}.png"]));
+     var lat;
+      var longi;
+      var i = 0;
+      var teste = 0;
+      var lonlat;
+      
+    // Replace ./data.json with your JSON feed
+                    fetch('http://localhost:8080/myapp/patients/sst')
+                        .then((response) => {
+                            return response.json()
+                        })
+                        .then((d) => {
+                            // Work with JSON data here
+                            console.log(d)
+                        
+                        for (i in d) {                   
+                            lat = d[i].location.latitude;
+                            longi = d[i].location.longitude;
+                            lonLat = new OpenLayers.LonLat(longi, lat)
+                                .transform(
+                                    new OpenLayers.Projection("EPSG:4326"), // transform from WGS 1984
+                                    map.getProjectionObject() // to Spherical Mercator Projection
+                                );
+                            var zoom=16;
+
+                            var markers = new OpenLayers.Layer.Markers( "Markers" );
+                            map.addLayer(markers);
+    
+                            markers.addMarker(new OpenLayers.Marker(lonLat));
+                            map.setCenter (lonLat, zoom);
+    
+ 			                var popup = new OpenLayers.Popup("Popup", lonLat, new OpenLayers.Size(50,30), d[i].nomePaciente, true // <-- true if we want a close (X) button, false otherwise
+                        );
+                            
+                         // and add the popup to it.
+                        map.addPopup(popup);
+                            
+                           }}
+                        
+                        )
+                        .catch((err) => {
+                            // Do something for an error here
+                            console.log(err)
+                        })  
+  </script>
+</body>
