@@ -25,6 +25,7 @@ public class TempDiminuiWrapper implements Runnable{
 				kSession.update(fact, camara); //Atualizamos o Fact na sessao. (isso ira desencadear um check nas regras novamente)
 				
 				temp = (float) (temp - 0.5);
+				kSession.fireAllRules();
 				Thread.sleep(1000); //Aguardamos 1s.
 			} catch (Exception e) {
 				e.printStackTrace();

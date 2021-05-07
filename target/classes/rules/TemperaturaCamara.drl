@@ -7,9 +7,24 @@ import com.ufes.sistema_baseados_em_regras.entidades.LoteVacina;
 import com.ufes.sistema_baseados_em_regras.entidades.TipoIrregularidade;
 import com.ufes.sistema_baseados_em_regras.entidades.RegistroIrregularidadeTemp;
 import com.ufes.sistema_baseados_em_regras.entidades.Gestor;
+import com.ufes.sistema_baseados_em_regras.entidades.eventos.RegistroTemperatura;
 
 import java.time.LocalDateTime;
 import java.text.SimpleDateFormat;
+
+//--------- Queries utilizadas pelos recursos do serviÃ§o ----------------
+query "retornaRegistrosTemperatura" (String id)
+	$cam: Camara($num: num == id)
+	reg: RegistroTemperatura (camara==$cam)
+end
+
+//--------- Regras ----------------
+rule "Registro de nova temperatura"
+	when
+		$camara: Camara($temp: tempAtual)
+	then
+		insertLogical(new RegistroTemperatura($camara, $temp));
+end
 
 rule "Checando se temperatura esta proxima ao limite minimo de um lote"
 	when
@@ -35,7 +50,7 @@ rule "Checando se temperatura esta acima da temperatura maxima para dado tipo de
 		$lote: LoteVacina($serial: numeroSerial, $perigo: perigoTemperatura == false) from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMax: tempMax < $temp, $nome: nome) from $lote.getTipoVacina
 	then
-		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura acima do limite para o lote " + $serial + " de vacina do tipo " + $nome + ". Diminua a temperatura para abaixo de " + $tempMax + " °C";
+		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura acima do limite para o lote " + $serial + " de vacina do tipo " + $nome + ". Diminua a temperatura para abaixo de " + $tempMax + " ï¿½C";
 		Gestor proximo = $camara.gestorProximo();
 		proximo.sendMessage(msg);
 		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp($camara, $lote, TipoIrregularidade.Acima_da_Temperatura);
@@ -49,7 +64,7 @@ rule "Checando se temperatura esta abaixo da temperatura minima para dado tipo d
 		$lote: LoteVacina($serial: numeroSerial, $perigo: perigoTemperatura == false) from $camara.getLotesvacina
 		$tipo: TipoVacina($tempMin: tempMin > $temp, $nome: nome) from $lote.getTipoVacina
 	then
-		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura abaixo do limite para o lote " + $serial + " de vacina do tipo " + $nome + ". Aumente a temperatura para acima de " + $tempMin + " °C";
+		String msg = "CAMARA: " + $num + " -> " + "URGENTE!!! Temperatura abaixo do limite para o lote " + $serial + " de vacina do tipo " + $nome + ". Aumente a temperatura para acima de " + $tempMin + " ï¿½C";
 		Gestor proximo = $camara.gestorProximo();
 		proximo.sendMessage(msg);
 		RegistroIrregularidadeTemp reg = new RegistroIrregularidadeTemp($camara, $lote, TipoIrregularidade.Abaixo_da_Temperatura);
@@ -64,7 +79,7 @@ rule "Checando se uma irregularidade de temperatura baixa foi resolvida"
 		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, loteReg: lote == $lote, tipoIrreg: tipoIrregularidade == TipoIrregularidade.Abaixo_da_Temperatura) from $camara.getRegIrregularidade
 		$tipo: TipoVacina($nome: nome, $tempMin: tempMin <= $temp) from $lote.getTipoVacina
 	then
-		System.out.println("CAMARA: " + $num + " -> " + "UFA! O lote " + $serial + " de vacina do tipo " + $nome + " está a salvo! A temperatura da camara subiu para " + $temp + " °C");
+		System.out.println("CAMARA: " + $num + " -> " + "UFA! O lote " + $serial + " de vacina do tipo " + $nome + " estï¿½ a salvo! A temperatura da camara subiu para " + $temp + " ï¿½C");
 		$camara.removerIrregularidade($reg);
 end
 
@@ -75,7 +90,7 @@ rule "Checando se uma irregularidade de temperatura alta foi resolvida"
 		$reg: RegistroIrregularidadeTemp($inicio: horaInicio, loteReg: lote == $lote, tipoIrreg: tipoIrregularidade == TipoIrregularidade.Acima_da_Temperatura) from $camara.getRegIrregularidade
 		$tipo: TipoVacina($nome: nome, $tempMax: tempMax >= $temp) from $lote.getTipoVacina
 	then
-		System.out.println("CAMARA: " + $num + " -> " + "UFA! O lote " + $serial + " de vacina do tipo " + $nome + " está a salvo! A temperatura da camara diminuiu para " + $temp + " °C");
+		System.out.println("CAMARA: " + $num + " -> " + "UFA! O lote " + $serial + " de vacina do tipo " + $nome + " estï¿½ a salvo! A temperatura da camara diminuiu para " + $temp + " ï¿½C");
 		$camara.removerIrregularidade($reg);
 end
 

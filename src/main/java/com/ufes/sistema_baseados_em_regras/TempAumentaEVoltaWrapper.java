@@ -27,9 +27,11 @@ public class TempAumentaEVoltaWrapper implements Runnable{
 				
 				temp = temp + steps;
 				if(temp > 15)
-					steps = (-1) * steps; //Temperatura aumenta até 15 e depois começa a diminuir.
+					steps = (-1) * steps; //Temperatura aumenta atï¿½ 15 e depois comeï¿½a a diminuir.
 				if(temp < 2) //Ao ficar abaixo de 2, se mantem constante.
 					steps = 0;
+				
+				kSession.fireAllRules();
 				Thread.sleep(800); //Aguardamos 1s.
 			} catch (Exception e) {
 				e.printStackTrace();

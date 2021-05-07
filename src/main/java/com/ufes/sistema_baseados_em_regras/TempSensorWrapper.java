@@ -26,6 +26,7 @@ public class TempSensorWrapper implements Runnable{
 		       
 					camara.setTempAtual(info.getTemp()); //Atualizamos sua temperatura.
 					kSession.update(fact, camara); //Atualizamos o Fact na sess�o. (isso ir� desencadear um check nas regras novamente)
+					kSession.fireAllRules();
 		        }
 				
 				Thread.sleep(3000); //Aguardamos 3s.

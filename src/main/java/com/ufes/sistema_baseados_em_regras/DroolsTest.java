@@ -1,7 +1,12 @@
 package com.ufes.sistema_baseados_em_regras;
 
-
+import org.glassfish.grizzly.http.server.HttpServer;
+import org.glassfish.grizzly.http.server.StaticHttpHandler;
+import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.kie.api.KieBaseConfiguration;
 import org.kie.api.KieServices;
+import org.kie.api.conf.EventProcessingOption;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.FactHandle;
@@ -9,9 +14,12 @@ import org.kie.api.runtime.rule.FactHandle;
 import com.ufes.sistema_baseados_em_regras.entidades.Camara;
 import com.ufes.sistema_baseados_em_regras.entidades.LoteVacina;
 import com.ufes.sistema_baseados_em_regras.entidades.TipoVacina;
+import com.ufes.sistema_baseados_em_regras.servico.TemperatureService;
 import com.ufes.sistema_baseados_em_regras.entidades.Gestor;
 import com.ufes.sistema_baseados_em_regras.entidades.Local;
 
+import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -22,6 +30,11 @@ public class DroolsTest {
 	        KieServices ks = KieServices.Factory.get();
     	    KieContainer kContainer = ks.getKieClasspathContainer();
         	KieSession kSession = kContainer.newKieSession("ksession-rules");
+        	
+        	KieBaseConfiguration config = KieServices.Factory.get().newKieBaseConfiguration();
+        	config.setOption( EventProcessingOption.STREAM );
+        	
+        	TemperatureService.kSession = kSession;
         	
         	//Inicializar localizacoes
         	Local localCamara1 = new Local("local1",1.2, 1.2);
@@ -89,9 +102,49 @@ public class DroolsTest {
         	Thread threadCamara3 = new Thread( new TempAumentaEVoltaWrapper(kSession, fato3)); //Criamos uma thread que cuida da temperatura dessa camara.
         	threadCamara3.start(); //Iniciamos a thread.
         	
-        	kSession.fireUntilHalt();//Iniciamos os checks das regras indefinidamente (ate forcar a parada do sistema).
+        	
+        	kSession.fireAllRules();//Iniciamos os checks das regras indefinidamente (ate forcar a parada do sistema).
+            
+        	final HttpServer server = startServer();
+            System.out.println(String.format("Jersey app started with WADL available at "
+                    + "%s\nHit enter to stop it...", BASE_URI));
+            System.in.read();
+            System.out.println("*****SERVER STOPPED*****");
+            server.shutdown();
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        
+    }
+	
+	// Base URI the Grizzly HTTP server will listen on
+    public static final String BASE_URI = "http://localhost:8080/myapp";
+
+    /**
+     * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
+     * @return Grizzly HTTP server.
+     * @throws IOException 
+     */
+    public static HttpServer startServer() throws IOException {
+        // create a resource config that scans for JAX-RS resources and providers
+        // in sbr.tbservice package
+    	
+        final ResourceConfig rc = new ResourceConfig().packages("com.ufes.sistema_baseados_em_regras");
+        
+        
+        // create and start a new instance of grizzly http server
+        // exposing the Jersey application at BASE_URI
+        
+        HttpServer httpServer = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc, false);
+        
+        StaticHttpHandler staticHttpHandler = new StaticHttpHandler("");
+        staticHttpHandler.setFileCacheEnabled(false);
+        httpServer.getServerConfiguration().addHttpHandler(staticHttpHandler, "/");
+        
+        
+        httpServer.start();
+        
+        return httpServer;
+           
     }
 }
