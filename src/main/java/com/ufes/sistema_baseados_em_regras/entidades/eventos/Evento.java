@@ -6,15 +6,11 @@ import org.kie.api.definition.type.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
-
 @Role(Role.Type.EVENT)
 public class Evento {
     
 //    private LocalDateTime duracao;
-	@JsonProperty
     Date time;
-    @JsonProperty("time_milli")
     double timeMilli;    
     
     public Evento() {
