@@ -33,6 +33,10 @@ query "alertaDescarte"
 	reg: RegUrgencia (descartado: descartado == true) over window:time( 20s )
 end
 
+query "todosUrgencias"
+	reg: RegUrgencia()
+end
+
 query "alertaDefeito"
 	reg: RegDefeito ()
 end
@@ -40,6 +44,10 @@ end
 query "perigosTemperatura"
 	reg: RegTempPerigo ()
 end 
+
+query "camaras"
+	cam: Camara()
+end
 
 //--------- Regras ----------------
 

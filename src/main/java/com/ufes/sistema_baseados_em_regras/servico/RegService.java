@@ -7,6 +7,7 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.rule.QueryResults;
 import org.kie.api.runtime.rule.QueryResultsRow;
 
+import com.ufes.sistema_baseados_em_regras.entidades.eventos.Evento;
 import com.ufes.sistema_baseados_em_regras.entidades.eventos.RegDefeito;
 import com.ufes.sistema_baseados_em_regras.entidades.eventos.RegTempPerigo;
 import com.ufes.sistema_baseados_em_regras.entidades.eventos.RegUrgencia;
@@ -88,12 +89,42 @@ public class RegService {
 	         
     	List<RegTempPerigo> regs = new ArrayList<>();
 	    	
-    	QueryResults results = kSession.getQueryResults("pergiosTemperatura");
+    	QueryResults results = kSession.getQueryResults("perigosTemperatura");
      	
      	//para cada objeto retornado pela query, adiciona no array
     	for ( QueryResultsRow row : results ) {
     
     		RegTempPerigo reg = (RegTempPerigo)row.get("reg");	
+    		regs.add(reg);
+       	
+    	}
+ 	
+        return regs;
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/alertas")
+    public List<Evento> getAlertas(){
+	         
+    	List<Evento> regs = new ArrayList<>();
+	    	
+    	QueryResults resultsUrgencia = kSession.getQueryResults("todosUrgencias");
+     	
+     	//para cada objeto retornado pela query, adiciona no array
+    	for ( QueryResultsRow row : resultsUrgencia ) {
+    
+    		Evento reg = (Evento)row.get("reg");	
+    		regs.add(reg);
+       	
+    	}
+    	
+    	QueryResults resultsPerigo = kSession.getQueryResults("perigosTemperatura");
+     	
+     	//para cada objeto retornado pela query, adiciona no array
+    	for ( QueryResultsRow row : resultsPerigo ) {
+    
+    		Evento reg = (Evento)row.get("reg");	
     		regs.add(reg);
        	
     	}

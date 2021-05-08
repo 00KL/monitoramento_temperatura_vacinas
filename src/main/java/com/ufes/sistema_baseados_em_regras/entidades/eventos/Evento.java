@@ -11,12 +11,28 @@ public class Evento {
     
 //    private LocalDateTime duracao;
     Date time;
-    double timeMilli;    
+    double timeMilli;
+    String text;
     
-    public Evento() {
+    public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public Evento() {
         super();
         this.time = new Date();
         this.timeMilli = this.time.getTime();
+    }
+	
+	public Evento(String text) {
+		super();
+        this.time = new Date();
+        this.timeMilli = this.time.getTime();
+        this.text = text;
     }
 
     public Date getTime() {

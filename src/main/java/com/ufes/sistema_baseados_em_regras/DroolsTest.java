@@ -15,7 +15,7 @@ import com.ufes.sistema_baseados_em_regras.entidades.Camara;
 import com.ufes.sistema_baseados_em_regras.entidades.LoteVacina;
 import com.ufes.sistema_baseados_em_regras.entidades.TipoVacina;
 import com.ufes.sistema_baseados_em_regras.servico.RegService;
-import com.ufes.sistema_baseados_em_regras.servico.TemperatureService;
+import com.ufes.sistema_baseados_em_regras.servico.CamaraService;
 import com.ufes.sistema_baseados_em_regras.entidades.Gestor;
 import com.ufes.sistema_baseados_em_regras.entidades.Local;
 
@@ -35,7 +35,7 @@ public class DroolsTest {
         	KieBaseConfiguration config = KieServices.Factory.get().newKieBaseConfiguration();
         	config.setOption( EventProcessingOption.STREAM );
         	
-        	TemperatureService.kSession = kSession;
+        	CamaraService.kSession = kSession;
         	RegService.kSession = kSession;
         	
         	//Inicializar localizacoes
